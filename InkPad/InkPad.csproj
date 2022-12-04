@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>21.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\clear.txt" />
+	  <None Remove="Resources\Erase.txt" />
+	  <None Remove="Resources\fill.txt" />
+	  <None Remove="Resources\redo.txt" />
+	  <None Remove="Resources\select.txt" />
+	  <None Remove="Resources\undo.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="21.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Clear.txt" />
+	  <EmbeddedResource Include="Resources\Erase.txt" />
+	  <EmbeddedResource Include="Resources\Fill.txt" />
+	  <EmbeddedResource Include="Resources\Redo.txt" />
+	  <EmbeddedResource Include="Resources\Select.txt" />
+	  <EmbeddedResource Include="Resources\Undo.txt" />
+	</ItemGroup>
+
+</Project>
