@@ -43,7 +43,6 @@ public class MainWindow : Window
 
     private void OnClosed(object? sender, EventArgs e)
     {
-        Debug.WriteLine("Window is closing");
         SaveConfig();
     }
 

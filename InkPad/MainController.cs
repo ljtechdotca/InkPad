@@ -73,12 +73,10 @@ public class MainController
     {
         if (Regex.Match(value, "^(?:[0-9a-fA-F]{3}){1,2}$").Success)
         {
-            Debug.WriteLine(value + " is a valid hex color code");
             return true;
         }
         else
         {
-            Debug.WriteLine(value + " is a bad!");
             return false;
         }
     }
