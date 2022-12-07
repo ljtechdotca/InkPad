@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
-		<ApplicationIcon>21.ico</ApplicationIcon>
+		<ApplicationIcon>1.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="21.ico" />
+	  <Content Include="1.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

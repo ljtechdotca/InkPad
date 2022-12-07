@@ -12,6 +12,7 @@ using FontFamily = System.Windows.Media.FontFamily;
 using VerticalAlignment = System.Windows.VerticalAlignment;
 using Path = System.Windows.Shapes.Path;
 using System.Windows.Controls.Primitives;
+using System.Windows.Shapes;
 
 namespace InkPad;
 
@@ -46,14 +47,14 @@ public class MainView : StackPanel
 {
     public StackPanel Colors { get; private set; }
     public Grid Tools { get; private set; }
-    public MainWindow MainWindow { get; private set; }
+    public MainWindow Window { get; private set; }
     public MainController Controller { get; private set; }
 
     public event RoutedColorHandler ColorChanged;
 
     public MainView(MainWindow mainWindow)
     {
-        MainWindow = mainWindow;
+        Window = mainWindow;
         Controller = new(this);
         ColorChanged += (i, color) => Controller.UpdateColors(i, color);
 
@@ -64,6 +65,7 @@ public class MainView : StackPanel
         Tools = new();
         InitTools(); // Builds tools inside a public grid named 'Tools'
         Children.Add(Tools);
+
     }
 
     public void InitTools()
@@ -73,7 +75,7 @@ public class MainView : StackPanel
         Tool eraseTool = new("[E] Erase", InkCanvasIconType.Erase, 1, 0);
         Tool clearTool = new("[R] Clear", InkCanvasIconType.Clear, 1, 1);
         Tool undoTool = new("[CTRL + Z] Undo", InkCanvasIconType.Undo, 2, 0);
-        Tool redoTool = new("[CTRL + Y] Redo",InkCanvasIconType.Redo, 2, 1);
+        Tool redoTool = new("[CTRL + Y] Redo", InkCanvasIconType.Redo, 2, 1);
         Tool[] toolsArray = {
         clearTool,
         fillTool,
@@ -120,11 +122,27 @@ public class MainView : StackPanel
         {
             int j = i;
             WrapPanel wrapPanel = new();
+
+            Ellipse circle = new()
+            {
+                Fill = Brushes.Transparent,
+                Height = 6,
+                Width = 6,
+            };
+
+            ToolTip toolTip = new()
+            {
+                Content = $"[{j + 1}]",
+                Placement = PlacementMode.Left,
+            };
+
             Button button = new()
             {
                 Background = ColorCollection.GetSolidColorBrush(j),
                 Height = 24,
                 Width = 24,
+                Content = circle,
+                ToolTip = toolTip,
             };
 
             button.Click += (sender, e) => Controller.HandleColorClick(j);
@@ -140,6 +158,8 @@ public class MainView : StackPanel
             wrapPanel.Children.Add(textBox);
             Colors.Children.Add(wrapPanel);
         }
+
+        //Colors.Children[0].Children[0].Content.Fill = Brushes.White;
     }
 
     public void InvokeColor(int i, string color)

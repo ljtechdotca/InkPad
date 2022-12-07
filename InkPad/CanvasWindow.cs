@@ -25,7 +25,7 @@ public class CanvasWindow : Window
         WindowStyle = WindowStyle.None;
         ResizeMode = ResizeMode.NoResize;
         SizeToContent = SizeToContent.WidthAndHeight;
-        View = new CanvasView();
+        View = new CanvasView(this);
         MainWindow = mainWindow;
         Content = View;
         Width = View.Controller.Width;

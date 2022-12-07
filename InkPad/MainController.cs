@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using ColorConverter = System.Windows.Media.ColorConverter;
-using Color = System.Windows.Media.Color;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
+using System.Windows.Shapes;
+using Color = System.Windows.Media.Color;
+using Brushes = System.Windows.Media.Brushes;
+using System.Windows.Ink;
 
 namespace InkPad;
 
@@ -22,63 +24,64 @@ public class MainController
         View = view;
     }
 
+    public (Button button, TextBox textBox) GetColorsWrapPanelContents(int i)
+    {
+        WrapPanel wrapPanel = (WrapPanel)View.Colors.Children[i];
+        Button button = (Button)wrapPanel.Children[0];
+        TextBox textBox = (TextBox)wrapPanel.Children[1];
+
+        return (button, textBox);
+    }
+
     public void HandleColorClick(int i)
     {
-        View.MainWindow.CanvasWindow.Focus();
-        View.MainWindow.CanvasWindow.View.Controller.ChangeColor(i);
+        View.Window.CanvasWindow.Focus();
+        View.Window.CanvasWindow.View.Controller.ChangeColor(i);
     }
 
     public void HandleToolClick(InkCanvasIconType iconType)
     {
 
-        switch(iconType)
+        switch (iconType)
         {
             case InkCanvasIconType.Undo:
-                View.MainWindow.CanvasWindow.View.Controller.UndoStroke();
-            break;
+                View.Window.CanvasWindow.View.Controller.Undo();
+                break;
 
             case InkCanvasIconType.Redo:
-                View.MainWindow.CanvasWindow.View.Controller.RedoStroke();
+                View.Window.CanvasWindow.View.Controller.Redo();
                 break;
 
             case InkCanvasIconType.Select:
-                View.MainWindow.CanvasWindow.Focus();
-                View.MainWindow.CanvasWindow.View.Controller.ChangeTool(InkCanvasEditingMode.Select);
+                View.Window.CanvasWindow.Focus();
+                View.Window.CanvasWindow.View.Controller.ChangeMode(InkCanvasEditingMode.Select);
                 break;
 
             case InkCanvasIconType.Erase:
-                View.MainWindow.CanvasWindow.Focus();
-                View.MainWindow.CanvasWindow.View.Controller.ChangeTool(InkCanvasEditingMode.EraseByStroke);
+                View.Window.CanvasWindow.Focus();
+                View.Window.CanvasWindow.View.Controller.ChangeMode(InkCanvasEditingMode.EraseByStroke);
                 break;
 
             case InkCanvasIconType.Fill:
-                View.MainWindow.CanvasWindow.Focus();
-                View.MainWindow.CanvasWindow.View.Controller.ChangeTool(InkCanvasEditingMode.Ink);
-                View.MainWindow.CanvasWindow.View.Controller.ToggleBackground();
+                View.Window.CanvasWindow.Focus();
+                View.Window.CanvasWindow.View.Controller.ChangeMode(InkCanvasEditingMode.Ink);
+                View.Window.CanvasWindow.View.Controller.ToggleBackground();
                 break;
 
             case InkCanvasIconType.Clear:
-                View.MainWindow.CanvasWindow.Focus();
-                View.MainWindow.CanvasWindow.View.Controller.ChangeTool(InkCanvasEditingMode.Ink);
-                View.MainWindow.CanvasWindow.View.Controller.ClearCanvas();
+                View.Window.CanvasWindow.Focus();
+                View.Window.CanvasWindow.View.Controller.ChangeMode(InkCanvasEditingMode.Ink);
+                View.Window.CanvasWindow.View.Controller.ClearCanvas();
                 break;
 
-            default: 
+            default:
                 break;
         }
     }
 
-
     public static bool CheckValidColor(string value)
     {
-        if (Regex.Match(value, "^(?:[0-9a-fA-F]{3}){1,2}$").Success)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return Regex.Match(value, "^([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$").Success;
     }
 
     public void HandleTextBox(int i, string color)
@@ -93,16 +96,14 @@ public class MainController
         if (CheckValidColor(color))
         {
             ColorCollection.UpdateColor(i, color);
-            WrapPanel wrapPanel = (WrapPanel)View.Children[i];
-            Button button = (Button)wrapPanel.Children[0];
+            (Button button, TextBox textBox) = GetColorsWrapPanelContents(i);
             button.Background = ColorCollection.GetSolidColorBrush(i);
-            TextBox textBox = (TextBox)wrapPanel.Children[1];
             textBox.Text = color;
         }
     }
 
     public void HandleClear()
     {
-        View.MainWindow.CanvasWindow.View.Controller.ClearCanvas();
+        View.Window.CanvasWindow.View.Controller.ClearCanvas();
     }
 }

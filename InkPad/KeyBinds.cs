@@ -48,7 +48,7 @@ public class KeyBinds
                 break;
 
             case Key.Q:
-                CanvasWindow.View.Controller.ChangeTool(InkCanvasEditingMode.Select);
+                CanvasWindow.View.Controller.ChangeMode(InkCanvasEditingMode.Select);
                 break;
 
             case Key.W:
@@ -56,7 +56,7 @@ public class KeyBinds
                 break;
 
             case Key.E:
-                CanvasWindow.View.Controller.ChangeTool(InkCanvasEditingMode.EraseByStroke);
+                CanvasWindow.View.Controller.ChangeMode(InkCanvasEditingMode.EraseByStroke);
                 break;
 
             case Key.R:
@@ -79,7 +79,7 @@ public class KeyBinds
             case Key.Y:
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
-                    CanvasWindow.View.Controller.RedoStroke();
+                    CanvasWindow.View.Controller.Redo();
                 }
                 break;
 
@@ -87,7 +87,7 @@ public class KeyBinds
             case Key.Z:
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
                 {
-                    CanvasWindow.View.Controller.UndoStroke();
+                    CanvasWindow.View.Controller.Undo();
                 }
                 break;
         }
